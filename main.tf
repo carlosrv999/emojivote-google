@@ -30,5 +30,11 @@ module "database" {
 module "dns" {
   source = "./modules/dns"
 
-  name        = "carlosrv125"
+  name = "carlosrv125"
+}
+
+resource "google_vpc_access_connector" "connector" {
+  name          = "vpc-serverless-connection"
+  ip_cidr_range = "10.100.64.0/28"
+  network       = module.network.network_name
 }
