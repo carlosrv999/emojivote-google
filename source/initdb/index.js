@@ -21,6 +21,7 @@ const initializeDb = async () => {
       console.log("success, ", results);
     })
 
+    console.log("success")
     exit(0);
 
   } catch (error) {
