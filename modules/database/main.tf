@@ -14,7 +14,6 @@ resource "google_service_networking_connection" "default" {
 }
 
 resource "google_sql_database_instance" "default" {
-  name                = var.instance_name
   database_version    = var.database_version
   region              = var.region
   deletion_protection = false
@@ -43,9 +42,9 @@ resource "google_sql_database_instance" "default" {
     backup_configuration {
       enabled                        = true
       location                       = var.region
-      point_in_time_recovery_enabled = true
       start_time                     = "20:00"
       transaction_log_retention_days = 7
+      binary_log_enabled             = true
 
       backup_retention_settings {
         retained_backups = 7

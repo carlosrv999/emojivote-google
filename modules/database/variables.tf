@@ -19,10 +19,6 @@ variable "region" {
   description = "region to deploy SQL instances"
 }
 
-variable "instance_name" {
-  type = string
-}
-
 variable "database_version" {
   type = string
 }
