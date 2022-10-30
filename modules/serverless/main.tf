@@ -19,7 +19,7 @@ resource "google_cloud_run_service" "initdb" {
       service_account_name  = data.google_compute_default_service_account.default.email
       timeout_seconds       = 300
       containers {
-        image = var.inidb_container_name
+        image = var.initdb_container_name
 
         env {
           name  = "MYSQL_HOST"

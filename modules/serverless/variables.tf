@@ -22,6 +22,6 @@ variable "database_private_ip" {
   type = string
 }
 
-variable "inidb_container_name" {
+variable "initdb_container_name" {
   type = string
 }
