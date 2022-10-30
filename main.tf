@@ -33,6 +33,14 @@ module "dns" {
   name = "carlosrv125"
 }
 
+module "repository" {
+  source = "./modules/repository"
+
+  project_id = var.project_id
+  repo_name  = "my-repository"
+  region     = var.region
+}
+
 resource "google_vpc_access_connector" "connector" {
   name          = "vpc-serverless-connection"
   ip_cidr_range = "10.100.64.0/28"
