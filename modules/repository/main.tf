@@ -28,3 +28,11 @@ resource "docker_registry_image" "vote_bot" {
     context = "${path.cwd}/source/vote-bot"
   }
 }
+
+resource "docker_registry_image" "initdb" {
+  name = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.repo.repository_id}/vote-bot:v1.0"
+
+  build {
+    context = "${path.cwd}/source/initdb"
+  }
+}

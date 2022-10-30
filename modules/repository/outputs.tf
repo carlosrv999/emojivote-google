@@ -9,3 +9,7 @@ output "vote_api" {
 output "vote_bot" {
   value = docker_registry_image.vote_bot.name
 }
+
+output "initdb" {
+  value = docker_registry_image.initdb.name
+}

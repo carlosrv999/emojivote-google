@@ -25,6 +25,8 @@ module "database" {
   database_version         = "MYSQL_8_0"
   home_ip_address          = "38.25.18.114"
   instance_specs           = "db-n1-standard-2"
+  db_user                  = var.db_user
+  password                 = var.db_password
 }
 
 module "dns" {
