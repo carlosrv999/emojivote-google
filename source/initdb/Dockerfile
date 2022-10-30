@@ -6,5 +6,4 @@ RUN chown -R node:node /home/node/app
 USER node
 RUN npm install
 COPY --chown=node:node . .
-EXPOSE 3000
 CMD [ "node", "index.js" ]
