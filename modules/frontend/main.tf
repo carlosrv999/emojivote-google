@@ -41,7 +41,6 @@ resource "google_compute_backend_bucket" "static" {
 
 resource "google_compute_url_map" "default" {
   name = "emojivote-https-lb"
-  //default_service = google_compute_backend_bucket.static.id
 
   default_url_redirect {
     host_redirect          = "www.carlosrv125.com"
@@ -58,9 +57,6 @@ resource "google_compute_url_map" "default" {
     name            = "mysite"
     default_service = google_compute_backend_bucket.static.id
   }
-
-
-
 }
 
 resource "google_compute_url_map" "redirect" {
