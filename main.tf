@@ -48,3 +48,15 @@ resource "google_vpc_access_connector" "connector" {
   ip_cidr_range = "10.100.64.0/28"
   network       = module.network.network_name
 }
+
+module "serverless" {
+  source = "./modules/serverless"
+
+  database_private_ip           = module.database.database_private_ip
+  db_password                   = var.db_password
+  db_user                       = var.db_user
+  google_vpc_connector_selflink = google_vpc_access_connector.connector.self_link
+  initdb_container_name         = module.repository.initdb
+  project_id                    = var.project_id
+  region                        = var.region
+}
