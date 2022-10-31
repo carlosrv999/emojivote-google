@@ -32,7 +32,7 @@ module "database" {
 module "dns" {
   source = "./modules/dns"
 
-  name                        = "carlosrv125"
+  name = "carlosrv125"
 }
 
 module "repository" {
@@ -43,8 +43,11 @@ module "repository" {
   region     = var.region
 }
 
-resource "google_vpc_access_connector" "connector" {
-  name          = "vpc-serverless-connection"
-  ip_cidr_range = "10.100.64.0/28"
-  network       = module.network.network_name
+module "microservices" {
+  source = "./modules/microservices"
+
+  project_id = var.project_id
+  region     = var.region
+  network    = module.network.network_name
+  subnetwork = module.network.public_subnets_names[0]
 }
