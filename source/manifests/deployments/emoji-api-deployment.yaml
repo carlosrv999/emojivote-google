@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    description: ""
+  labels:
+    appgroup: ""
+    version: v1
+  name: emoji-api
+  namespace: emojivote
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: emoji-api
+      version: v1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        metrics.alpha.kubernetes.io/custom-endpoints: '[{"api":"","path":"","port":"","names":""}]'
+      labels:
+        app: emoji-api
+        version: v1
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DB
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_DB
+              name: db-access-emoji
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_HOST
+              name: emojivote-db-access
+        - name: MYSQL_PASSWD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_PASSWD
+              name: db-access-emoji
+        - name: MYSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_PORT
+              name: db-access-emoji
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_USER
+              name: db-access-emoji
+        image: us-central1-docker.pkg.dev/terraformdemo-355914/app-emojivote/emojiapi:v3
+        imagePullPolicy: IfNotPresent
+        name: emoji-container
+      imagePullSecrets:
+      - name: default-secret
+      restartPolicy: Always

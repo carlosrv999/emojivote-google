@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  MYSQL_HOST: ${db_private_ip_address}
+kind: ConfigMap
+metadata:
+  name: emojivote-db-access
+  namespace: emojivote

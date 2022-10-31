@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    description: ""
+  labels:
+    appgroup: ""
+    version: v1
+  name: vote-bot
+  namespace: emojivote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vote-bot
+      version: v1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        metrics.alpha.kubernetes.io/custom-endpoints: '[{"api":"","path":"","port":"","names":""}]'
+      labels:
+        app: vote-bot
+        version: v1
+    spec:
+      containers:
+      - env:
+        - name: GET_EMOJI_URL
+          valueFrom:
+            configMapKeyRef:
+              key: GET_EMOJI_URL
+              name: bot-emojivote-urls
+        - name: POST_VOTE_URL
+          valueFrom:
+            configMapKeyRef:
+              key: POST_VOTE_URL
+              name: bot-emojivote-urls
+        image: us-central1-docker.pkg.dev/terraformdemo-355914/app-emojivote/votebot:v1
+        imagePullPolicy: IfNotPresent
+        name: votebot-container
+      imagePullSecrets:
+      - name: default-secret
+      restartPolicy: Always

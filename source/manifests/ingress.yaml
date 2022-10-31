@@ -1,0 +1,49 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-emojivote-api
+  namespace: emojivote
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: emoji-load-balancer-ip-address
+    networking.gke.io/v1beta1.FrontendConfig: redirect-config
+spec:
+  tls:
+    - hosts:
+        - api.carlosrv125.com
+      secretName: cert-vote-carlosrv125-com
+    - hosts:
+        - emoji.carlosrv125.com
+      secretName: cert-emoji-carlosrv125-com
+  rules:
+    - host: api.carlosrv125.com
+      http:
+        paths:
+          - path: /vote
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: vote
+                port:
+                  number: 3001
+    - host: emoji.carlosrv125.com
+      http:
+        paths:
+          - path: /emoji
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: emoji
+                port:
+                  number: 3000
+
+---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: redirect-config
+  namespace: emojivote
+spec:
+  redirectToHttps:
+    enabled: true
+    responseCodeName: MOVED_PERMANENTLY_DEFAULT

@@ -59,3 +59,50 @@ module "frontend" {
   project_id = var.project_id
   region     = var.region
 }
+
+resource "local_file" "certificates" {
+
+  content = templatefile("${path.cwd}/templates/ssl-cert.yaml.tftpl", {
+    emoji_crt = base64encode(file("${path.cwd}/sslcerts/emoji.carlosrv125.com.crt"))
+    emoji_key = base64encode(file("${path.cwd}/sslcerts/emoji.carlosrv125.com.key"))
+    vote_crt  = base64encode(file("${path.cwd}/sslcerts/api.carlosrv125.com.crt"))
+    vote_key  = base64encode(file("${path.cwd}/sslcerts/api.carlosrv125.com.key"))
+  })
+
+  filename = "${path.cwd}/source/manifests/secrets/certificates.yaml"
+
+}
+
+resource "local_file" "database_credentials_emoji" {
+
+  content = templatefile("${path.cwd}/templates/db-access-emoji.yaml.tftpl", {
+    emoji_db_name   = base64encode("emoji")
+    emoji_db_passwd = base64encode(var.emoji_db_password)
+    emoji_db_user   = base64encode(var.emoji_db_user)
+  })
+
+  filename = "${path.cwd}/source/manifests/secrets/db-access-emoji.yaml"
+
+}
+
+resource "local_file" "database_credentials_vote" {
+
+  content = templatefile("${path.cwd}/templates/db-access-vote.yaml.tftpl", {
+    vote_db_name   = base64encode("votes")
+    vote_db_passwd = base64encode(var.vote_db_password)
+    vote_db_user   = base64encode(var.vote_db_user)
+  })
+
+  filename = "${path.cwd}/source/manifests/secrets/db-access-vote.yaml"
+
+}
+
+resource "local_file" "emojivote_ip_address_configmap" {
+
+  content = templatefile("${path.cwd}/templates/db-access-configmap.yaml.tftpl", {
+    db_private_ip_address = module.database.database_private_ip
+  })
+
+  filename = "${path.cwd}/source/manifests/envs/emojivote-db-access-configmap.yaml"
+
+}
