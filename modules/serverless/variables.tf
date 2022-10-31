@@ -25,3 +25,28 @@ variable "database_private_ip" {
 variable "initdb_container_name" {
   type = string
 }
+
+variable "emojiapi_container_name" {
+  type = string
+}
+
+variable "voteapi_container_name" {
+  type = string
+}
+
+variable "emoji_db_user" {
+  type = string
+}
+
+variable "emoji_db_password" {
+  type = string
+}
+
+variable "vote_db_user" {
+  type = string
+}
+
+variable "vote_db_password" {
+  type = string
+}
+

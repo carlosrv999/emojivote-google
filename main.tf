@@ -52,11 +52,20 @@ resource "google_vpc_access_connector" "connector" {
 module "serverless" {
   source = "./modules/serverless"
 
-  database_private_ip           = module.database.database_private_ip
-  db_password                   = var.db_password
-  db_user                       = var.db_user
+  database_private_ip = module.database.database_private_ip
+  db_password         = var.db_password
+  db_user             = var.db_user
+  emoji_db_user       = var.emoji_db_user
+  emoji_db_password   = var.emoji_db_password
+  vote_db_user        = var.vote_db_user
+  vote_db_password    = var.vote_db_password
+
   google_vpc_connector_selflink = google_vpc_access_connector.connector.self_link
-  initdb_container_name         = module.repository.initdb
-  project_id                    = var.project_id
-  region                        = var.region
+
+  initdb_container_name   = module.repository.initdb
+  emojiapi_container_name = module.repository.emoji_api
+  voteapi_container_name  = module.repository.vote_api
+
+  project_id = var.project_id
+  region     = var.region
 }
