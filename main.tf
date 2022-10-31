@@ -32,7 +32,8 @@ module "database" {
 module "dns" {
   source = "./modules/dns"
 
-  name = "carlosrv125"
+  name                            = "carlosrv125"
+  webapp_load_balancer_ip_address = module.frontend.webapp_load_balancer_ip_address
 }
 
 module "repository" {
@@ -50,4 +51,11 @@ module "microservices" {
   region     = var.region
   network    = module.network.network_name
   subnetwork = module.network.public_subnets_names[0]
+}
+
+module "frontend" {
+  source = "./modules/frontend"
+
+  project_id = var.project_id
+  region     = var.region
 }
