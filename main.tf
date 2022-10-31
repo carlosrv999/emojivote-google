@@ -25,16 +25,37 @@ module "database" {
   database_version         = "MYSQL_8_0"
   home_ip_address          = "38.25.18.114"
   instance_specs           = "db-n1-standard-2"
+  db_user                  = var.db_user
+  password                 = var.db_password
 }
 
 module "dns" {
   source = "./modules/dns"
 
-  name = "carlosrv125"
+  name                            = "carlosrv125"
+  webapp_load_balancer_ip_address = module.frontend.webapp_load_balancer_ip_address
 }
 
-resource "google_vpc_access_connector" "connector" {
-  name          = "vpc-serverless-connection"
-  ip_cidr_range = "10.100.64.0/28"
-  network       = module.network.network_name
+module "repository" {
+  source = "./modules/repository"
+
+  project_id = var.project_id
+  repo_name  = "my-repository"
+  region     = var.region
+}
+
+module "microservices" {
+  source = "./modules/microservices"
+
+  project_id = var.project_id
+  region     = var.region
+  network    = module.network.network_name
+  subnetwork = module.network.public_subnets_names[0]
+}
+
+module "frontend" {
+  source = "./modules/frontend"
+
+  project_id = var.project_id
+  region     = var.region
 }

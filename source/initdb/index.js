@@ -28,8 +28,6 @@ const initializeDb = () => {
           console.log("success, ", results);
         })
 
-        connection.end();
-
         console.log("success")
       }
     });
@@ -41,6 +39,9 @@ const initializeDb = () => {
 
 try {
   initializeDb();
+  setTimeout(() => {
+    console.log("ha pasado un tiempo");
+  }, 100000)
 } catch (error) {
   console.log("an error happened: ", error)
   throw error;

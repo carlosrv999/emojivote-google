@@ -30,3 +30,11 @@ variable "home_ip_address" {
 variable "instance_specs" {
   type = string
 }
+
+variable "password" {
+  type = string
+}
+
+variable "db_user" {
+  type = string
+}
