@@ -32,7 +32,7 @@ module "database" {
 module "dns" {
   source = "./modules/dns"
 
-  name = "carlosrv125"
+  name                        = "carlosrv125"
 }
 
 module "repository" {
@@ -47,25 +47,4 @@ resource "google_vpc_access_connector" "connector" {
   name          = "vpc-serverless-connection"
   ip_cidr_range = "10.100.64.0/28"
   network       = module.network.network_name
-}
-
-module "serverless" {
-  source = "./modules/serverless"
-
-  database_private_ip = module.database.database_private_ip
-  db_password         = var.db_password
-  db_user             = var.db_user
-  emoji_db_user       = var.emoji_db_user
-  emoji_db_password   = var.emoji_db_password
-  vote_db_user        = var.vote_db_user
-  vote_db_password    = var.vote_db_password
-
-  google_vpc_connector_selflink = google_vpc_access_connector.connector.self_link
-
-  initdb_container_name   = module.repository.initdb
-  emojiapi_container_name = module.repository.emoji_api
-  voteapi_container_name  = module.repository.vote_api
-
-  project_id = var.project_id
-  region     = var.region
 }
