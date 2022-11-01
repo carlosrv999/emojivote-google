@@ -106,3 +106,15 @@ resource "local_file" "emojivote_ip_address_configmap" {
   filename = "${path.cwd}/source/manifests/envs/emojivote-db-access-configmap.yaml"
 
 }
+
+resource "local_file" "root_db_access" {
+
+  content = templatefile("${path.cwd}/templates/root-db-access.yaml.tftpl", {
+    db_host     = base64encode(module.database.database_private_ip)
+    root_user   = base64encode(var.db_user)
+    root_passwd = base64encode(var.db_password)
+  })
+
+  filename = "${path.cwd}/source/manifests/secrets/root-db-access.yaml"
+
+}
