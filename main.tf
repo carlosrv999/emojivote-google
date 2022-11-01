@@ -48,10 +48,11 @@ module "repository" {
 module "microservices" {
   source = "./modules/microservices"
 
-  project_id = var.project_id
-  region     = var.region
-  network    = module.network.network_name
-  subnetwork = module.network.public_subnets_names[0]
+  project_id          = var.project_id
+  region              = var.region
+  network             = module.network.network_name
+  subnetwork          = module.network.public_subnets_names[0]
+  global_address_name = "emoji-load-balancer-ip-address"
 }
 
 module "frontend" {
@@ -157,5 +158,15 @@ resource "local_file" "votebot_deployment" {
   })
 
   filename = "${path.cwd}/source/manifests/deployments/vote-bot-deployment.yaml"
+
+}
+
+resource "local_file" "ingress" {
+
+  content = templatefile("${path.cwd}/templates/ingress.yaml.tftpl", {
+    global_address_name = module.microservices.global_address_name
+  })
+
+  filename = "${path.cwd}/source/manifests/ingress.yaml"
 
 }
