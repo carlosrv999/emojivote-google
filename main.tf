@@ -119,3 +119,43 @@ resource "local_file" "root_db_access" {
   filename = "${path.cwd}/source/manifests/secrets/root-db-access.yaml"
 
 }
+
+resource "local_file" "initdb_job" {
+
+  content = templatefile("${path.cwd}/templates/initdb.yaml.tftpl", {
+    initdb_image = module.repository.initdb
+  })
+
+  filename = "${path.cwd}/source/manifests/jobs/initdb.yaml"
+
+}
+
+resource "local_file" "emojiapi_deployment" {
+
+  content = templatefile("${path.cwd}/templates/emoji-api-deployment.yaml.tftpl", {
+    emojiapi_image = module.repository.emoji_api
+  })
+
+  filename = "${path.cwd}/source/manifests/deployments/emoji-api-deployment.yaml"
+
+}
+
+resource "local_file" "voteapi_deployment" {
+
+  content = templatefile("${path.cwd}/templates/vote-api-deployment.yaml.tftpl", {
+    voteapi_image = module.repository.vote_api
+  })
+
+  filename = "${path.cwd}/source/manifests/deployments/vote-api-deployment.yaml"
+
+}
+
+resource "local_file" "votebot_deployment" {
+
+  content = templatefile("${path.cwd}/templates/vote-bot-deployment.yaml.tftpl", {
+    votebot_image = module.repository.vote_bot
+  })
+
+  filename = "${path.cwd}/source/manifests/deployments/vote-bot-deployment.yaml"
+
+}

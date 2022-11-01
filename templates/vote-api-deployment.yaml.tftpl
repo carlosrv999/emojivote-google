@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    description: ""
+  labels:
+    appgroup: ""
+    version: v1
+  name: vote-api
+  namespace: emojivote
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vote-api
+      version: v1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        metrics.alpha.kubernetes.io/custom-endpoints: '[{"api":"","path":"","port":"","names":""}]'
+      labels:
+        app: vote-api
+        version: v1
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_DB
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_DB
+                  name: db-access-vote
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_HOST
+                  name: emojivote-db-access
+            - name: MYSQL_PASSWD
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_PASSWD
+                  name: db-access-vote
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_PORT
+                  name: db-access-vote
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_USER
+                  name: db-access-vote
+          image: ${voteapi_image}
+          imagePullPolicy: IfNotPresent
+          name: vote-container
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: default-secret
+      restartPolicy: Always
