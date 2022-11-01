@@ -25,20 +25,27 @@ spec:
         version: v1
     spec:
       containers:
-      - env:
-        - name: GET_EMOJI_URL
-          valueFrom:
-            configMapKeyRef:
-              key: GET_EMOJI_URL
-              name: bot-emojivote-urls
-        - name: POST_VOTE_URL
-          valueFrom:
-            configMapKeyRef:
-              key: POST_VOTE_URL
-              name: bot-emojivote-urls
-        image: us-central1-docker.pkg.dev/terraformdemo-355914/app-emojivote/votebot:v1
-        imagePullPolicy: IfNotPresent
-        name: votebot-container
+        - env:
+            - name: GET_EMOJI_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: GET_EMOJI_URL
+                  name: bot-emojivote-urls
+            - name: POST_VOTE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: POST_VOTE_URL
+                  name: bot-emojivote-urls
+          image: us-central1-docker.pkg.dev/sandbox-367215/my-repository/vote-bot:v1.0
+          imagePullPolicy: IfNotPresent
+          name: votebot-container
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       imagePullSecrets:
-      - name: default-secret
+        - name: default-secret
       restartPolicy: Always

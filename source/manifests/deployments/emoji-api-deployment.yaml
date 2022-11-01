@@ -25,35 +25,42 @@ spec:
         version: v1
     spec:
       containers:
-      - env:
-        - name: MYSQL_DB
-          valueFrom:
-            secretKeyRef:
-              key: MYSQL_DB
-              name: db-access-emoji
-        - name: MYSQL_HOST
-          valueFrom:
-            configMapKeyRef:
-              key: MYSQL_HOST
-              name: emojivote-db-access
-        - name: MYSQL_PASSWD
-          valueFrom:
-            secretKeyRef:
-              key: MYSQL_PASSWD
-              name: db-access-emoji
-        - name: MYSQL_PORT
-          valueFrom:
-            secretKeyRef:
-              key: MYSQL_PORT
-              name: db-access-emoji
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              key: MYSQL_USER
-              name: db-access-emoji
-        image: us-central1-docker.pkg.dev/terraformdemo-355914/app-emojivote/emojiapi:v3
-        imagePullPolicy: IfNotPresent
-        name: emoji-container
+        - env:
+            - name: MYSQL_DB
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_DB
+                  name: db-access-emoji
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_HOST
+                  name: emojivote-db-access
+            - name: MYSQL_PASSWD
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_PASSWD
+                  name: db-access-emoji
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_PORT
+                  name: db-access-emoji
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: MYSQL_USER
+                  name: db-access-emoji
+          image: us-central1-docker.pkg.dev/sandbox-367215/my-repository/emoji-api:v1.0
+          imagePullPolicy: IfNotPresent
+          name: emoji-container
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       imagePullSecrets:
-      - name: default-secret
+        - name: default-secret
       restartPolicy: Always
