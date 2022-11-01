@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  MYSQL_HOST: ${db_host}
+  MYSQL_USER: ${root_user}
+  MYSQL_PASSWD: ${root_passwd}
+kind: Secret
+metadata:
+  name: root-db-access
+  namespace: emojivote
+type: Opaque

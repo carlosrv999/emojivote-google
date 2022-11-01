@@ -21,6 +21,8 @@ const myLogger = function (req, res, next) {
 
 app.use(myLogger)
 
+app.options('*', cors())
+
 app.use(router);
 
 app.get('/', (req, res) => {

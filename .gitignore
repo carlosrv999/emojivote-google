@@ -31,3 +31,4 @@ override.tf.json
 *.tfvars
 node_modules
 sslcerts
+source/manifests/secrets/*.yaml

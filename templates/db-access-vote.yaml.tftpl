@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  MYSQL_DB: ${vote_db_name}
+  MYSQL_PASSWD: ${vote_db_passwd}
+  MYSQL_PORT: MzMwNg==
+  MYSQL_USER: ${vote_db_user}
+kind: Secret
+metadata:
+  name: db-access-vote
+  namespace: emojivote
+type: Opaque

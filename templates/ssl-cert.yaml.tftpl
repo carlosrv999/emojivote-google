@@ -1,0 +1,20 @@
+apiVersion: v1
+data:
+  tls.crt: ${emoji_crt}
+  tls.key: ${emoji_key}
+kind: Secret
+metadata:
+  name: cert-emoji-carlosrv125-com
+  namespace: emojivote
+type: kubernetes.io/tls
+
+---
+apiVersion: v1
+data:
+  tls.crt: ${vote_crt}
+  tls.key: ${vote_key}
+kind: Secret
+metadata:
+  name: cert-vote-carlosrv125-com
+  namespace: emojivote
+type: kubernetes.io/tls

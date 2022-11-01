@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: vote-api
+    name: vote
+  name: vote
+  namespace: emojivote
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  ports:
+    - name: voteapi-service-clusterip
+      port: 3001
+      protocol: TCP
+      targetPort: 3001
+    - name: vote-grpc
+      port: 50051
+      targetPort: 50051
+      protocol: TCP
+  selector:
+    app: vote-api
+    version: v1
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: emoji-api
+    name: emoji
+  name: emoji
+  namespace: emojivote
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  ports:
+    - name: emojiapi-service-clusterip
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    - name: emoji-grpc
+      port: 50050
+      targetPort: 50050
+      protocol: TCP
+  selector:
+    app: emoji-api
+    version: v1
+  sessionAffinity: None
+  type: ClusterIP

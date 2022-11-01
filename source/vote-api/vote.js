@@ -1,5 +1,6 @@
 import express from 'express'
 import { querySelectVotes, queryInsertVote } from './queries.js'
+import cors from 'cors'
 const router = express.Router()
 
 router.use((req, res, next) => {

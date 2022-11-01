@@ -1,10 +1,10 @@
 # Create Cloud Storage buckets
-resource "random_id" "bucket_prefix" {
+resource "random_id" "prefix" {
   byte_length = 8
 }
 
 resource "google_storage_bucket" "static" {
-  name                        = "${random_id.bucket_prefix.hex}-bucket-1"
+  name                        = "${random_id.prefix.hex}-bucket-2"
   location                    = var.region
   uniform_bucket_level_access = true
   storage_class               = "STANDARD"
@@ -16,7 +16,7 @@ resource "google_storage_bucket" "static" {
   }
 
   provisioner "local-exec" {
-    command = "gsutil -m cp -r ${path.cwd}/source/webapp-emojivote-reborn/dist/emojivote/ gs://${self.name}"
+    command = "gsutil -m -h \"Cache-Control:public, max-age=10\" cp -r ${path.cwd}/source/front-vote/dist/emojivote/* gs://${self.name}"
   }
 
 }

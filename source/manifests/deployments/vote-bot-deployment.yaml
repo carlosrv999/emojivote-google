@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    description: ""
+  labels:
+    appgroup: ""
+    version: v1
+  name: vote-bot
+  namespace: emojivote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vote-bot
+      version: v1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        metrics.alpha.kubernetes.io/custom-endpoints: '[{"api":"","path":"","port":"","names":""}]'
+      labels:
+        app: vote-bot
+        version: v1
+    spec:
+      containers:
+        - env:
+            - name: GET_EMOJI_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: GET_EMOJI_URL
+                  name: bot-emojivote-urls
+            - name: POST_VOTE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: POST_VOTE_URL
+                  name: bot-emojivote-urls
+          image: us-central1-docker.pkg.dev/sandbox-367215/my-repository/vote-bot:v1.0
+          imagePullPolicy: IfNotPresent
+          name: votebot-container
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      imagePullSecrets:
+        - name: default-secret
+      restartPolicy: Always

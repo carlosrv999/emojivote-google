@@ -13,3 +13,7 @@ variable "network" {
 variable "subnetwork" {
   type = string
 }
+
+variable "global_address_name" {
+  type = string
+}

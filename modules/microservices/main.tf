@@ -27,3 +27,8 @@ resource "google_container_cluster" "primary" {
   }
 
 }
+
+resource "google_compute_global_address" "default" {
+  name         = var.global_address_name
+  address_type = "EXTERNAL"
+}
