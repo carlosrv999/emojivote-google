@@ -51,7 +51,7 @@ spec:
                 secretKeyRef:
                   key: MYSQL_USER
                   name: db-access-vote
-          image: us-central1-docker.pkg.dev/sandbox-367215/my-repository/vote-api:v1.0
+          image: us-central1-docker.pkg.dev/sandbox-367215/my-repository/vote-api:v1.1
           imagePullPolicy: IfNotPresent
           name: vote-container
           resources:

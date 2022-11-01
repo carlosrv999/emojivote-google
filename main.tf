@@ -34,6 +34,7 @@ module "dns" {
 
   name                            = "carlosrv125"
   webapp_load_balancer_ip_address = module.frontend.webapp_load_balancer_ip_address
+  ingress_ip_address              = module.microservices.ingress_ip_address
 }
 
 module "repository" {

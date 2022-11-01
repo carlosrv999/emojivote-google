@@ -16,7 +16,7 @@ resource "google_storage_bucket" "static" {
   }
 
   provisioner "local-exec" {
-    command = "gsutil -m cp -r ${path.cwd}/source/webapp-emojivote-reborn/dist/emojivote/ gs://${self.name}"
+    command = "gsutil -m cp -r ${path.cwd}/source/front-vote/dist/emojivote/ gs://${self.name}"
   }
 
 }
